@@ -24,11 +24,11 @@ function setup() {
   pixelDensity(4);
   cnv.mousePressed(playOscillator);
   osc1 = new p5.Oscillator('sin');
-  osc2 = new p5.Oscillator('square');
-  osc1.freq(440);
-  osc1.amp(0);
-  osc2.freq(440);
-  osc2.amp(2);
+  osc2 = new p5.Oscillator('sawtooth');
+  osc1.freq(256);
+  osc1.amp(1);
+  osc2.freq(256);
+  osc2.amp(0);
   // osc2.phase(0.5)
 
   fft = new p5.FFT;
