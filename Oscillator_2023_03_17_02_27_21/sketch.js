@@ -21,13 +21,14 @@ let osc1, osc2, fft, playing;
 
 function setup() {
   let cnv = createCanvas(windowWidth, windowHeight);
+  pixelDensity(4);
   cnv.mousePressed(playOscillator);
-  osc1 = new p5.Oscillator('sawtooth');
-  osc2 = new p5.Oscillator('sine');
-  osc1.freq(110);
-  osc1.amp(1);
-  osc2.freq(110);
-  osc2.amp(-1);
+  osc1 = new p5.Oscillator('sin');
+  osc2 = new p5.Oscillator('square');
+  osc1.freq(440);
+  osc1.amp(0);
+  osc2.freq(440);
+  osc2.amp(2);
   // osc2.phase(0.5)
 
   fft = new p5.FFT;
@@ -37,26 +38,30 @@ function setup() {
 
 function draw() {
   background(0);
-
-  frameRate(1);
-
-
-  // stroke(255);
-  // strokeWeight(1);
-  // translate(0, height / 2);
-  // for (let i = 0; i < width; i++) {
-  //   let h = 
-  //   line()
-  // }
+  // frameRate(1);
 
   let spectrum = fft.analyze();
-  noStroke();
-  fill(255, 0, 255);
+  push();
+  translate(width / 2, height / 2);
+  // noStroke();
+  // fill(255, 192, 0);
+  noFill();
+  stroke(255, 192, 0);
+  strokeWeight(0.25);
   for (let i = 0; i < spectrum.length; i++) {
-    let x = map(i, 0, spectrum.length, 0, width);
-    let h = -height + map(spectrum[i], 0, 255, height, 0);
-    rect(x, height, width / spectrum.length, h);
+    let angle = map(i, 0, spectrum.length, 0, TWO_PI);
+    let radius = map(spectrum[i], 0, 255, 0, width / 2 - 20);
+    let x1 = cos(angle);
+    let y1 = sin(angle);
+    let x2 = cos(angle + TWO_PI / spectrum.length);
+    let y2 = sin(angle + TWO_PI / spectrum.length);
+    triangle(0, 0, radius * x1, radius * y1, radius * x2, radius * y2)
+
+    // let x = map(i, 0, spectrum.length, 0, width);
+    // let h = -height + map(spectrum[i], 0, 255, height, 0);
+    // rect(x, height, width / spectrum.length, h);
   }
+  pop();
 
   let waveform = fft.waveform();
   noFill();
