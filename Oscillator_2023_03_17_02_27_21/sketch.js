@@ -22,13 +22,13 @@ let osc1, osc2, fft, playing;
 function setup() {
   let cnv = createCanvas(windowWidth, windowHeight);
   cnv.mousePressed(playOscillator);
-  osc1 = new p5.Oscillator('sine');
+  osc1 = new p5.Oscillator('sawtooth');
   osc2 = new p5.Oscillator('sine');
-  osc1.freq(440);
-  osc1.amp(10);
-  osc2.freq(440);
-  osc2.amp(10);
-  osc2.phase(0.5)
+  osc1.freq(110);
+  osc1.amp(1);
+  osc2.freq(110);
+  osc2.amp(-1);
+  // osc2.phase(0.5)
 
   fft = new p5.FFT;
 
