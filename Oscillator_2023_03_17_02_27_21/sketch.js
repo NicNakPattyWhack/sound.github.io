@@ -85,8 +85,8 @@ function playOscillator() {
     osc2.freq(120);
     osc1.start();
     osc2.start();
-    osc1.freq(500, 1);
-    osc2.freq(600, 1);
+    osc1.freq(500, 10);
+    osc2.freq(600, 10);
   } else {
     osc1.stop();
     osc2.stop();
