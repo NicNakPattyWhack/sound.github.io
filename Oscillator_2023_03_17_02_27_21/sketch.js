@@ -23,12 +23,10 @@ function setup() {
   let cnv = createCanvas(windowWidth, windowHeight);
   pixelDensity(4);
   cnv.mousePressed(playOscillator);
-  osc1 = new p5.Oscillator('sin');
-  osc2 = new p5.Oscillator('sawtooth');
-  osc1.freq(256);
-  osc1.amp(1);
-  osc2.freq(256);
-  osc2.amp(0);
+  osc1 = new p5.Oscillator('triangle');
+  osc2 = new p5.Oscillator('triangle');
+  osc1.amp(-1);
+  osc2.amp(1);
   // osc2.phase(0.5)
 
   fft = new p5.FFT;
@@ -39,6 +37,9 @@ function setup() {
 function draw() {
   background(0);
   // frameRate(1);
+
+  // osc1.freq(250 + 250 * sq(sin(frameCount * 0.005)));
+  // osc2.freq(300 + 300 * sq(sin(frameCount * 0.005)));
 
   let spectrum = fft.analyze();
   push();
@@ -80,8 +81,12 @@ function playOscillator() {
   playing = !playing;
 
   if (playing) {
+    osc1.freq(100);
+    osc2.freq(120);
     osc1.start();
     osc2.start();
+    osc1.freq(500, 1);
+    osc2.freq(600, 1);
   } else {
     osc1.stop();
     osc2.stop();
