@@ -17,16 +17,31 @@
 
 // }
 
-let osc1, osc2, fft, playing;
+var osc1, osc2, fft, playing, oscs, f;
 
 function setup() {
   let cnv = createCanvas(windowWidth, windowHeight);
   pixelDensity(4);
   cnv.mousePressed(playOscillator);
-  osc1 = new p5.Oscillator('triangle');
-  osc2 = new p5.Oscillator('triangle');
-  osc1.amp(-1);
-  osc2.amp(1);
+
+  oscs = [];
+  // let f = [9, 10, 11, 12];
+  f = [10, 10.5, 11, 11.5, 12]
+  // let f = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19];
+  // let a = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19];
+
+  for (let i = 0; i < f.length; i++) {
+    oscs.push(new p5.Oscillator('sin'));
+    // oscs[i].amp(1 / a[i]);
+    oscs[i].amp(1 / f.length);
+    // oscs[i].freq(f[i] * 50);
+    oscs[i].freq(1);
+  }
+
+  // osc1 = new p5.Oscillator('triangle');
+  // osc2 = new p5.Oscillator('triangle');
+  // osc1.amp(1);
+  // osc2.amp(1);
   // osc2.phase(0.5)
 
   fft = new p5.FFT;
@@ -56,7 +71,7 @@ function draw() {
     let y1 = sin(angle);
     let x2 = cos(angle + TWO_PI / spectrum.length);
     let y2 = sin(angle + TWO_PI / spectrum.length);
-    triangle(0, 0, radius * x1, radius * y1, radius * x2, radius * y2)
+    triangle(0, 0, radius * x1, radius * y1, radius * x2, radius * y2);
 
     // let x = map(i, 0, spectrum.length, 0, width);
     // let h = -height + map(spectrum[i], 0, 255, height, 0);
@@ -81,14 +96,23 @@ function playOscillator() {
   playing = !playing;
 
   if (playing) {
-    osc1.freq(100);
-    osc2.freq(120);
-    osc1.start();
-    osc2.start();
-    osc1.freq(500, 10);
-    osc2.freq(600, 10);
+    // osc1.freq(200);
+    // osc2.freq(200);
+    // osc1.start();
+    // osc2.start();
+    // osc1.freq(500, 10);
+    // osc2.freq(600, 10);
+
+    for (let i in oscs) {
+      oscs[i].start();
+      oscs[i].freq(f[i] * 80, 10);
+    }
   } else {
-    osc1.stop();
-    osc2.stop();
+    // osc1.stop();
+    // osc2.stop();
+
+    for (let osc of oscs) {
+      osc.stop();
+    }
   }
 }
